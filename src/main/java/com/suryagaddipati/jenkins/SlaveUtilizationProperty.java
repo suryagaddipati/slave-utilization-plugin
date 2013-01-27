@@ -34,7 +34,7 @@ public class SlaveUtilizationProperty extends JobProperty<Job<?, ?>> {
 		 @Override
 	        public SlaveUtilizationProperty newInstance(StaplerRequest req, JSONObject formData) throws FormException {
 			 boolean needsExclusiveAccessToNode = formData.containsKey("needsExclusiveAccessToNode");
-	         int requestedSalveUtilizationPercentage = needsExclusiveAccessToNode? Integer.parseInt( ((Map<String,String>)formData.get("needsExclusiveAccessToNode")).get("salveUtilizationPercentage")): -1;
+	         int requestedSalveUtilizationPercentage = needsExclusiveAccessToNode? Integer.parseInt( ((Map<String,String>)formData.get("needsExclusiveAccessToNode")).get("salveUtilizationPercentage")): 0;
 			 return new SlaveUtilizationProperty(needsExclusiveAccessToNode,requestedSalveUtilizationPercentage);
 
 	        }

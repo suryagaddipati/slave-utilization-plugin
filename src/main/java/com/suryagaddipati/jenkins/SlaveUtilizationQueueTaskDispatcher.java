@@ -1,44 +1,51 @@
 package com.suryagaddipati.jenkins;
 
 import hudson.Extension;
+import hudson.matrix.MatrixConfiguration;
 import hudson.model.Build;
 import hudson.model.AbstractProject;
 import hudson.model.Executor;
 import hudson.model.Node;
 import hudson.model.Queue.BuildableItem;
+import hudson.model.Queue.Executable;
 import hudson.model.queue.CauseOfBlockage;
 import hudson.model.queue.QueueTaskDispatcher;
+
 @Extension
 public class SlaveUtilizationQueueTaskDispatcher extends QueueTaskDispatcher {
 	@Override
 	public CauseOfBlockage canTake(Node node, BuildableItem item) {
 		if (item.task instanceof AbstractProject) {
-			AbstractProject project = (AbstractProject) item.task;
 
-			SlaveUtilizationProperty property = (SlaveUtilizationProperty) project
-					.getProperty(SlaveUtilizationProperty.class);
+			float requestedPercentage = getProjectNodeSlice((AbstractProject) item.task, node);
+			float currentRunningCapacity = 0;
 
-			if (property != null) {
-				boolean needsExlusiveAcess = property
-						.isNeedsExclusiveAccessToNode();
-				if (needsExlusiveAcess) {
-					// Dont run if anyother job is running
-					for (Executor executor : node.toComputer().getExecutors()) {
-						if (executor.getCurrentExecutable() != null)
-							return new CauseOfBlockage.BecauseNodeIsBusy(node);
-					}
-				} else {
-					// Dont run if exclusive access job is running
-					for (Executor executor : node.toComputer().getExecutors()) {
-						if (currentlyRunningExclusiveAccessProject(executor))return new CauseOfBlockage.BecauseNodeIsBusy(node);	
-						
-					}
-				}
-
+			for (Executor executor : node.toComputer().getExecutors()) {
+				
+				Executable currentExecutable = executor.getCurrentExecutable();
+				if (currentExecutable != null && currentExecutable instanceof Build)
+					currentRunningCapacity += getProjectNodeSlice(((Build)currentExecutable).getProject(), node);
 			}
+			float availableCapacity = 100 - currentRunningCapacity;
+            if(requestedPercentage > availableCapacity) return new CauseOfBlockage.BecauseNodeIsBusy(node);
 		}
 
 		return super.canTake(node, item);
+	}
+
+	private float getProjectNodeSlice(AbstractProject executable, Node node) {
+		AbstractProject project = executable instanceof MatrixConfiguration?  ((MatrixConfiguration)executable).getParent(): executable;
+		
+		SlaveUtilizationProperty property = (SlaveUtilizationProperty) project
+				.getProperty(SlaveUtilizationProperty.class);
+		return property != null && property.isNeedsExclusiveAccessToNode() ? property
+				.getSalveUtilizationPercentage()
+				: nodeUtilizationPerNotGreedyJob(node);
+	}
+
+	private float nodeUtilizationPerNotGreedyJob(Node node) {
+		return node.toComputer().getNumExecutors() > 0 ? 100 / node
+				.toComputer().getNumExecutors() : 0;
 	}
 
 	private boolean currentlyRunningExclusiveAccessProject(Executor executor) {
@@ -47,15 +54,14 @@ public class SlaveUtilizationQueueTaskDispatcher extends QueueTaskDispatcher {
 			Build currentlyRunningBuild = (Build) executor
 					.getCurrentExecutable();
 
-			SlaveUtilizationProperty currentProjectproperty = (SlaveUtilizationProperty) currentlyRunningBuild.getProject()
-					.getProperty(SlaveUtilizationProperty.class);
+			SlaveUtilizationProperty currentProjectproperty = (SlaveUtilizationProperty) currentlyRunningBuild
+					.getProject().getProperty(SlaveUtilizationProperty.class);
 			boolean needsExclusiveAccess = currentProjectproperty != null
-					&& currentProjectproperty
-							.isNeedsExclusiveAccessToNode();
+					&& currentProjectproperty.isNeedsExclusiveAccessToNode();
 			return needsExclusiveAccess;
-			
+
 		}
 		return false;
-		
+
 	}
 }
