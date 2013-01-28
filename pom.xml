@@ -16,7 +16,7 @@
 
   <scm>
     <connection>scm:git:git://github.com/jenkinsci/slave-utilization-plugin.git</connection>
-    <developerConnection>scm:git:git://git@github.com/jenkinsci/slave-utilization-plugin.git</developerConnection>
+    <developerConnection>scm:git:git@github.com:jenkinsci/slave-utilization-plugin.git</developerConnection>
     <url>https://github.com/jenkinsci/slave-utilization-plugin</url>
   </scm>
 
