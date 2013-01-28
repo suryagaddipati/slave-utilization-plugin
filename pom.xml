@@ -6,6 +6,12 @@
     <version>1.488</version><!-- which version of Jenkins is this plugin built against? -->
   </parent>
 
+  <scm>
+    <connection>scm:git:ssh://github.com/jenkinsci/slave-utilization-plugin.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/jenkinsci/slave-utilization-plugin.git</developerConnection>
+    <url>https://github.com/jenkinsci/slave-utilization-plugin</url>
+  </scm>
+
   <groupId>com.suryagaddipati.jenkins</groupId>
   <artifactId>slave-utilization-plugin</artifactId>
   <version>1.0-SNAPSHOT</version>
