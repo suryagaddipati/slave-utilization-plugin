@@ -18,7 +18,7 @@ public class SlaveUtilizationQueueTaskDispatcherTest extends HudsonTestCase {
 		DumbSlave node = createSlave();
 		
 		 FreeStyleProject thirtyPercentJob = createFreeStyleProject();
-		 thirtyPercentJob.addProperty(new SlaveUtilizationProperty(true, 30));
+		 thirtyPercentJob.addProperty(new SlaveUtilizationProperty(true, 30,false));
 		 WaitingItem scheduledJob = new Queue.WaitingItem(null, thirtyPercentJob, new ArrayList<Action>());
 		
 		CauseOfBlockage causeOfBlockage = taskDispatcher.canTake(node, new Queue.BuildableItem(scheduledJob));
