@@ -71,7 +71,7 @@ public class SlaveUtilizationQueueTaskDispatcher extends QueueTaskDispatcher {
 	
 		SlaveUtilizationProperty property = (SlaveUtilizationProperty) project.getProperty(SlaveUtilizationProperty.class);
 		return property != null && property.isNeedsExclusiveAccessToNode() ? property
-				.getSalveUtilizationPercentage()
+				.getSlaveUtilizationPercentage()
 				: nodeUtilizationPerNotGreedyJob(node);
 	}
 
