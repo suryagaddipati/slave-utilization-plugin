@@ -14,11 +14,11 @@ import org.kohsuke.stapler.StaplerRequest;
 public class SlaveUtilizationProperty extends JobProperty<Job<?, ?>> {
 	private final boolean needsExclusiveAccessToNode;
 	private final boolean singleInstancePerSlave;
-	private final int salveUtilizationPercentage;
+	private final int slaveUtilizationPercentage;
 
-	public SlaveUtilizationProperty(boolean needsExclusiveAccessToNode, int salveUtilizationPercentage, boolean singleInstancePerSlave) {
+	public SlaveUtilizationProperty(boolean needsExclusiveAccessToNode, int slaveUtilizationPercentage, boolean singleInstancePerSlave) {
 		this.needsExclusiveAccessToNode = needsExclusiveAccessToNode;
-		this.salveUtilizationPercentage = salveUtilizationPercentage;
+		this.slaveUtilizationPercentage = slaveUtilizationPercentage;
 		this.singleInstancePerSlave =  singleInstancePerSlave;
 	}
 
@@ -37,8 +37,8 @@ public class SlaveUtilizationProperty extends JobProperty<Job<?, ?>> {
 	        public SlaveUtilizationProperty newInstance(StaplerRequest req, JSONObject formData) throws FormException {
 			 boolean needsExclusiveAccessToNode = formData.containsKey("needsExclusiveAccessToNode");
 			 boolean singleInstancePerSlave = formData.containsKey("singleInstancePerSlave");
-	         int requestedSalveUtilizationPercentage = needsExclusiveAccessToNode? Integer.parseInt( ((Map<String,String>)formData.get("needsExclusiveAccessToNode")).get("salveUtilizationPercentage")): 0;
-			 return new SlaveUtilizationProperty(needsExclusiveAccessToNode,requestedSalveUtilizationPercentage,singleInstancePerSlave);
+	         int requestedSlaveUtilizationPercentage = needsExclusiveAccessToNode? Integer.parseInt( ((Map<String,String>)formData.get("needsExclusiveAccessToNode")).get("slaveUtilizationPercentage")): 0;
+			 return new SlaveUtilizationProperty(needsExclusiveAccessToNode,requestedSlaveUtilizationPercentage,singleInstancePerSlave);
 
 	        }
 	}
@@ -47,8 +47,8 @@ public class SlaveUtilizationProperty extends JobProperty<Job<?, ?>> {
 		return needsExclusiveAccessToNode;
 	}
 
-	public int getSalveUtilizationPercentage() {
-		return salveUtilizationPercentage;
+	public int getSlaveUtilizationPercentage() {
+		return slaveUtilizationPercentage;
 	}
 
 	public boolean isSingleInstancePerSlave() {

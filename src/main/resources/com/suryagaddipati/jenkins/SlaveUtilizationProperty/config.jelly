@@ -1,6 +1,6 @@
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
 <f:optionalBlock name="needsExclusiveAccessToNode" title="${%Needs percentage based access to slave's resources}" checked="${instance.needsExclusiveAccessToNode}" >
-        <f:entry title="${%Percentage of Slave Utilization}" field="salveUtilizationPercentage">
+        <f:entry title="${%Percentage of Slave Utilization}" field="slaveUtilizationPercentage">
             <f:number />
         </f:entry>     
     </f:optionalBlock>
