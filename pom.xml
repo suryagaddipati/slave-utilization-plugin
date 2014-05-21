@@ -15,9 +15,9 @@
   <url>https://wiki.jenkins-ci.org/display/JENKINS/Slave+Utilization+Plugin</url>
 
   <scm>
-    <connection>scm:git:ssh://github.com/suryagaddipati/slave-utilization-plugin.git</connection>
-    <developerConnection>scm:git:ssh://git@github.com/suryagaddipati/slave-utilization-plugin.git</developerConnection>
-    <url>https://github.com/suryagaddpati/slave-utilization-plugin</url>
+    <connection>scm:git:ssh://github.com/jenkinsci/slave-utilization-plugin.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/jenkinsci/slave-utilization-plugin.git</developerConnection>
+    <url>https://github.com/jenkinsci/slave-utilization-plugin</url>
   </scm>
 
 
